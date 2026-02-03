@@ -2,6 +2,7 @@ package com.example.TripGenie.security;
 
 import com.example.TripGenie.service.JwtHelper;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtHelper jwtHelper;
     private final UserDetailsService userDetailsService;
 
-    // Define public endpoints that don't require JWT validation
     private final List<String> publicEndpoints = Arrays.asList(
             "/api/token/generate",
             "/api/auth/signup",
@@ -35,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, ServletException {
 
         String requestPath = request.getRequestURI();
 

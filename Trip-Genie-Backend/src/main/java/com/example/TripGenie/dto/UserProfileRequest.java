@@ -11,7 +11,6 @@ public class UserProfileRequest {
     public String UserName;
     public String phone;
 
-    // Manual getters and setters
     public String getUserName() { return UserName; }
     public void setUserName(String userName) { this.UserName = userName; }
     public String getPhone() { return phone; }
