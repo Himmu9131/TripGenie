@@ -4,6 +4,7 @@ import com.example.TripGenie.dto.ApiResponse;
 import com.example.TripGenie.dto.AuthResponse;
 import com.example.TripGenie.dto.LoginRequest;
 import com.example.TripGenie.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

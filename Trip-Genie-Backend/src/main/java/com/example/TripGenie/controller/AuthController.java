@@ -3,6 +3,7 @@ package com.example.TripGenie.controller;
 import com.example.TripGenie.dto.*;
 import com.example.TripGenie.model.entity.User;
 import com.example.TripGenie.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

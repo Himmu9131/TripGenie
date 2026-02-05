@@ -3,13 +3,13 @@ package com.example.TripGenie.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUpRequest {
     @NotBlank(message = "UserName is required")
     @Size(min=3, max=50, message = "Username must between 3 to 50 characters")
