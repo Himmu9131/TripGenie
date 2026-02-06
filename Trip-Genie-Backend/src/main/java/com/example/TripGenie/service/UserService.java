@@ -1,9 +1,6 @@
 package com.example.TripGenie.service;
 
-import com.example.TripGenie.dto.AuthResponse;
-import com.example.TripGenie.dto.LoginRequest;
-import com.example.TripGenie.dto.SignUpRequest;
-import com.example.TripGenie.dto.UserProfileRequest;
+import com.example.TripGenie.dto.*;
 import com.example.TripGenie.model.entity.User;
 import com.example.TripGenie.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -105,5 +102,24 @@ public class UserService {
 
     public Boolean existByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public AuthResponse googleAuth(GoogleAuthRequest googleAuthRequest) throws BadRequestException {
+        if (googleAuthRequest.getUserData() == null || googleAuthRequest.getToken() == null) {
+            throw new BadRequestException();
+        }
+        String email = googleAuthRequest.getUserData().getEmail();
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null) {
+            String token = jwtHelper.generateToken(user.getEmail());
+            return new AuthResponse(token, "Bearer", user.getId(), user.getEmail(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole());
+        }
+        String userName=googleAuthRequest.getUserData().getEmail();
+        User newUser=User.builder().username(userName).email(email).password(passwordEncoder.encode("GOOGLE_AUTH"+System.currentTimeMillis()))
+                .firstName(googleAuthRequest.getUserData().getFirstName()).lastName(googleAuthRequest.getUserData().getLastName())
+                .phoneNumber(null).build();
+        User savedUser=userRepository.save(newUser);
+        String token=jwtHelper.generateToken(savedUser.getUsername());
+        return new AuthResponse(token, "Bearer", savedUser.getId(), savedUser.getEmail(), savedUser.getEmail(), savedUser.getFirstName(), savedUser.getLastName(), savedUser.getRole());
     }
 }

@@ -27,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             "/api/token/generate",
             "/api/auth/signup",
             "/api/auth/login",
+            "/api/auth/google-auth",
             "/api/mail/send",
             "/api/payments/health",
             "/api/payments/config"
