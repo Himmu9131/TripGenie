@@ -20,6 +20,7 @@ public class ItineraryService {
 
     private final ItineraryRepository itineraryRepository;
     private final UserRepository userRepository;
+    private final TextProcessingService textProcessingService;
 
     public ItineraryResponse saveItinerary(Long userId, ItineraryRequest request) {
         User user = userRepository.findById(userId)
@@ -68,10 +69,14 @@ public class ItineraryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Itinerary> itineraries = itineraryRepository.findByUserAndSearchTerm(user, searchTerm);
-        return itineraries.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+        String processedSearchTerm = textProcessingService.processText(searchTerm);
+        List<Itinerary> itineraries=itineraryRepository.findByUserOrderByCreatedAtDesc(user);
+        return itineraries.stream().filter(itinerary -> {
+            String processedDestination = textProcessingService.processText(itinerary.getDestination());
+            String processedItinerary = textProcessingService.processText(itinerary.getFullItinerary());
+            return processedDestination.contains(processedSearchTerm) ||
+                    processedItinerary.contains(processedSearchTerm);
+        }).map(this::mapToResponse).collect(Collectors.toList());
     }
 
     public void deleteItinerary(Long userId, Long itineraryId) {
