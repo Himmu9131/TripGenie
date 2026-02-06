@@ -58,6 +58,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/google-auth").permitAll()
                         .requestMatchers("/api/mail/send").permitAll()
+                        .requestMatchers("/api/payments/health").permitAll()
+                        .requestMatchers("/api/payments/config").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

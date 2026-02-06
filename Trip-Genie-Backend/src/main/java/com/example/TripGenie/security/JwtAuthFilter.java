@@ -27,7 +27,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             "/api/token/generate",
             "/api/auth/signup",
             "/api/auth/login",
-            "/api/mail/send"
+            "/api/mail/send",
+            "/api/payments/health",
+            "/api/payments/config"
     );
 
     public JwtAuthFilter(JwtHelper jwtHelper, UserDetailsService userDetailsService) {
